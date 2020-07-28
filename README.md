@@ -14,18 +14,18 @@ docker run -d --name zookeeper -p 2181:2181 -t wurstmeister/zookeeper
 docker run  -d --name kafka \
 -p 9092:9092 \
 -e KAFKA_BROKER_ID=0 \ 
--e KAFKA_ZOOKEEPER_CONNECT=192.168.204.128:2181 \ 
--e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.204.128:9092 \
+-e KAFKA_ZOOKEEPER_CONNECT=192.168.168.168:2181 \ 
+-e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.168.168:9092 \
 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -t wurstmeister/kafka 
 ```
 这里面主要设置了4个参数
 ```
 KAFKA_BROKER_ID=0               
-KAFKA_ZOOKEEPER_CONNECT=192.168.204.128:2181
-KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.204.128:9092
+KAFKA_ZOOKEEPER_CONNECT=192.168.168.168:2181
+KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.168.168:9092
 KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
 ```
-中间两个参数的192.168.204.128改为宿主机器的IP地址，如果不这么设置，可能会导致在别的机器上访问不到kafka。
+中间两个参数的192.168.168.168改为宿主机器的IP地址，如果不这么设置，可能会导致在别的机器上访问不到kafka。
 
 #### 4. 测试kafka
 进入kafka容器的命令行
@@ -43,19 +43,19 @@ cd opt/kafka_2.12-1.1.0/
 docker run -d --name kafka1 \
 -p 9093:9093 \
 -e KAFKA_BROKER_ID=1 \
--e KAFKA_ZOOKEEPER_CONNECT=192.168.204.128:2181 \
--e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.204.128:9093 \
+-e KAFKA_ZOOKEEPER_CONNECT=192.168.168.168:2181 \
+-e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.168.168:9093 \
 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093 -t wurstmeister/kafka
 ```
 #### 5. 创建Replication为2，Partition为2的topic
 在kafka容器中的opt/kafka_2.12-1.1.0/目录下输入
 ```
-bin/kafka-topics.sh --create --zookeeper 192.168.204.128:2181 --replication-factor 2 --partitions 2 --topic partopic
+bin/kafka-topics.sh --create --zookeeper 192.168.168.168:2181 --replication-factor 2 --partitions 2 --topic partopic
 ```
 #### 6. 查看topic的状态
 在kafka容器中的opt/kafka_2.12-1.1.0/目录下输入
 ```
-bin/kafka-topics.sh --describe --zookeeper 192.168.204.128:2181 --topic partopic
+bin/kafka-topics.sh --describe --zookeeper 192.168.168.168:2181 --topic partopic
 ```
 输出结果：
 ```
