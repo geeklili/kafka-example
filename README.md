@@ -47,10 +47,13 @@ docker run -d --name kafka1 \
 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.168.168:9093 \
 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093 -t wurstmeister/kafka
 ```
-#### 5. 创建Replication为2，Partition为2的topic
+#### 5. 创建Replication为2，Partition为2的topic（如果没有集群，就都为1）
 在kafka容器中的opt/kafka_2.12-1.1.0/目录下输入
 ```
 bin/kafka-topics.sh --create --zookeeper 192.168.168.168:2181 --replication-factor 2 --partitions 2 --topic partopic
+```
+```
+bin/kafka-topics.sh --create --zookeeper 192.168.168.168:2181 --replication-factor 1 --partitions 1 --topic partopic
 ```
 #### 6. 查看topic的状态
 在kafka容器中的opt/kafka_2.12-1.1.0/目录下输入
